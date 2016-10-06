@@ -1,7 +1,7 @@
 $(function() {
   var screen = new Screen($(document), $("#screen"), 10);
-  screen.drawGrid();
   var life = new Life(screen);
+  screen.drawGrid();
   life.play(100);
 });
 
@@ -32,7 +32,10 @@ class Screen {
   }
 
   refresh(diff) {
-
+    for (var i = 0; i < diff.length; i++) {
+      cell = diff[i];
+      cell.alive ? set(cell.x, cell.y) : del(cell.x, cell.y);
+    }
   }
 
   del(x, y) {
@@ -67,7 +70,7 @@ class Life {
 
   play(delay) {
     setTimeout(() => {
-      var diff;
+      var diff = [];
       this.screen.refresh(diff);
       this.gen++;
       this.play(delay);
