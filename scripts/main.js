@@ -1,7 +1,6 @@
 $(function() {
   var screen = new Screen($(document), $("#screen"), 15);
   var life = new Life(screen);
-
   var initials = [
     [10, 3],
     [11, 3],
@@ -13,14 +12,6 @@ $(function() {
     [21, 6]
   ]
 
-  for (var i = 0; i < initials.length; i++) {
-    var coordinates = initials[i];
-    var x = coordinates[0];
-    var y = coordinates[1];
-
-    life.cellAt(x, y, (cell) => { cell.populate() });
-  }
-
-  life.init();
+  life.init(initials);
   life.play(25);
 });

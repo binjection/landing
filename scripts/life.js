@@ -51,7 +51,15 @@ class Life {
     this.gen = 0;
   }
 
-  init() {
+  init(initials) {
+    for (var i = 0; i < initials.length; i++) {
+      var coordinates = initials[i];
+      var x = coordinates[0];
+      var y = coordinates[1];
+
+      this.cellAt(x, y, (cell) => { cell.populate() });
+    }
+
     this.screen.refresh(this.grid.data);
   }
 
