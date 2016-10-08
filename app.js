@@ -46,13 +46,13 @@ class Screen {
   refresh(diff) {
     for (var i = 0; i < diff.length; i++) {
       var cell = diff[i];
-      cell.confirm();
-      cell.isAlive() ? this.set(cell.x, cell.y) : this.del(cell.x, cell.y);
+      cell.confirmNextGen();
+      cell.isAlive() ? this.set(cell) : this.del(cell);
     }
   }
 
-  del(x, y) {
-    this.getContext(x, y, (ctx, x, y, size) => {
+  del(cell) {
+    this.getContext(cell.x, cell.y, (ctx, x, y, size) => {
       ctx.clearRect(x, y, size, size);
       ctx.fillStyle = "#2D325A";
       ctx.globalAlpha = Math.random() * 0.3 + 0.15;
@@ -60,13 +60,13 @@ class Screen {
     });
   }
 
-  set(x, y) {
-    this.getContext(x, y, (ctx, x, y, size) => {
+  set(cell) {
+    this.getContext(cell.x, cell.y, (ctx, x, y, size) => {
       ctx.clearRect(x, y, size, size);
       ctx.globalAlpha = 1;
       ctx.fillStyle = "#56BDA2";
       ctx.fillRect(x, y, size, size);
-    })
+    });
   }
 
   getContext(x, y, callback) {
@@ -187,7 +187,7 @@ class Cell {
     this.nextGenValue = 0;
   }
 
-  confirm() {
+  confirmNextGen() {
     this.value = this.nextGenValue;
     this.nextGenValue = null;
   }
