@@ -1,34 +1,3 @@
-$(function() {
-  var screen = new Screen($(document), $("#screen"), 15);
-  var life = new Life(screen);
-
-  var initials = [
-    [10, 3],
-    [11, 3],
-    [12, 3],
-    [20, 8],
-    [21, 8],
-    [22, 8],
-    [22, 7],
-    [21, 6]
-  ]
-
-  for (var i = 0; i < initials.length; i++) {
-    var coordinates = initials[i];
-    var x = coordinates[0];
-    var y = coordinates[1];
-
-    life.cellAt(x, y, (cell) => { cell.populate() });
-  }
-
-  life.init();
-  life.play(25);
-});
-
-function rand(min, max) {
-  return Math.random() * (max - min) + min;
-}
-
 class Screen {
   constructor($document, $elem, unit) {
     this.elem = $elem[0];
@@ -39,8 +8,8 @@ class Screen {
   resizeCanvas(w, h) {
     this.elem.width  = w;
     this.elem.height = h;
-    this.cols = Math.floor(w / this.unit);
-    this.rows = Math.floor(h / this.unit);
+    this.cols = Math.ceil(w / this.unit);
+    this.rows = Math.ceil(h / this.unit);
   }
 
   refresh(diff) {
@@ -55,7 +24,7 @@ class Screen {
     this.getContext(cell.x, cell.y, (ctx, x, y, size) => {
       ctx.clearRect(x, y, size, size);
       ctx.fillStyle = "#2D325A";
-      ctx.globalAlpha = Math.random() * 0.3 + 0.15;
+      ctx.globalAlpha = rand(0.15, 0.45);
       ctx.fillRect(x, y, size, size);
     });
   }
