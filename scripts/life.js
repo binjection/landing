@@ -13,9 +13,15 @@ class Screen {
   }
 
   refresh(diff) {
-    for (let cell of diff) {
-      cell.confirmNextGen();
-      cell.isAlive() ? this.set(cell) : this.del(cell);
+    for (let change of diff) {
+      change({
+        populated: (cell) => {
+          this.set(cell);
+        },
+        dead: (cell) => {
+          this.del(cell);
+        }
+      });
     }
   }
 
@@ -66,13 +72,19 @@ class Life {
   }
 
   insert(cartridge) {
+    let diff = [];
+
+    for (let cell of this.grid.data) {
+      diff.push(cell.kill());
+    }
+
     cartridge.read((x, y) => {
       this.cellAt(x, y, (cell) => {
-        cell.populate()
+        diff.push(cell.populate());
       });
     });
 
-    this.screen.refresh(this.grid.data);
+    this.screen.refresh(diff);
   }
 
   play(delay) {
@@ -109,13 +121,11 @@ class Life {
 
           if (cell.isAlive()) {
             if (aliveNeighbours < 2 || aliveNeighbours > 3) {
-              cell.kill();
-              diff.push(cell);
+              diff.push(cell.kill());
             }
           } else {
             if (aliveNeighbours == 3) {
-              cell.populate();
-              diff.push(cell);
+              diff.push(cell.populate());
             }
           }
         });
@@ -151,7 +161,6 @@ class Cell {
     this.x = x;
     this.y = y;
     this.value = value;
-    this.nextGenValue = null;
   }
 
   isAlive() {
@@ -159,15 +168,16 @@ class Cell {
   }
 
   populate() {
-    this.nextGenValue = 1;
+    return (callbacks) => {
+      this.value = 1;
+      callbacks.populated(this);
+    };
   }
 
   kill() {
-    this.nextGenValue = 0;
-  }
-
-  confirmNextGen() {
-    this.value = this.nextGenValue;
-    this.nextGenValue = null;
+    return (callbacks) => {
+      this.value = 0;
+      callbacks.dead(this);
+    };
   }
 }
