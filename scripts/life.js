@@ -13,8 +13,7 @@ class Screen {
   }
 
   refresh(diff) {
-    for (var i = 0; i < diff.length; i++) {
-      var cell = diff[i];
+    for (let cell of diff) {
       cell.confirmNextGen();
       cell.isAlive() ? this.set(cell) : this.del(cell);
     }
@@ -39,7 +38,7 @@ class Screen {
   }
 
   getContext(x, y, callback) {
-    var ctx = this.elem.getContext("2d");
+    let ctx = this.elem.getContext("2d");
     callback(ctx, x * this.unit, y * this.unit, this.unit);
   }
 }
@@ -93,11 +92,11 @@ class Life {
   recalculate(callback) {
     var diff = [];
 
-    for (var x = 0; x < this.screen.cols; x++) {
-      for (var y = 0; y < this.screen.rows; y++) {
+    for (let x = 0; x < this.screen.cols; x++) {
+      for (let y = 0; y < this.screen.rows; y++) {
         this.grid.get(x, y, (cell) => {
-          var aliveNeighbours = 0;
-          var neighbourCoordinates = [
+          let aliveNeighbours = 0;
+          let neighbourCoordinates = [
             [x - 1, y],
             [x + 1, y],
             [x, y - 1],
@@ -108,10 +107,9 @@ class Life {
             [x + 1, y + 1],
           ]
 
-          for (var i = 0; i < 8; i++) {
-            var coordinates = neighbourCoordinates[i];
-            var nx = coordinates[0];
-            var ny = coordinates[1];
+          for (let point of neighbourCoordinates) {
+            let nx = point[0];
+            let ny = point[1];
 
             this.grid.get(nx, ny, (neighbourCell) => {
               aliveNeighbours += neighbourCell.value;
@@ -143,8 +141,8 @@ class Grid {
     this.rows = rows;
     this.data = [];
 
-    for (var x = 0; x < this.cols; x++) {
-      for (var y = 0; y < this.rows; y++) {
+    for (let x = 0; x < this.cols; x++) {
+      for (let y = 0; y < this.rows; y++) {
         this.data[y * this.cols + x] = new Cell(x, y, 0);
       }
     }
