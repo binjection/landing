@@ -44,6 +44,21 @@ class Screen {
   }
 }
 
+class Cartridge {
+  constructor(points) {
+    this.points = points;
+  }
+
+  read(callback) {
+    for (let point of this.points) {
+      let x = point[0];
+      let y = point[1];
+
+      callback(x, y);
+    }
+  }
+}
+
 class Life {
   constructor(screen) {
     this.screen = screen;
@@ -51,14 +66,12 @@ class Life {
     this.gen = 0;
   }
 
-  init(initials) {
-    for (var i = 0; i < initials.length; i++) {
-      var coordinates = initials[i];
-      var x = coordinates[0];
-      var y = coordinates[1];
-
-      this.cellAt(x, y, (cell) => { cell.populate() });
-    }
+  insert(cartridge) {
+    cartridge.read((x, y) => {
+      this.cellAt(x, y, (cell) => {
+        cell.populate()
+      });
+    });
 
     this.screen.refresh(this.grid.data);
   }

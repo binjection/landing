@@ -1,7 +1,7 @@
 $(function() {
   var screen = new Screen($(document), $("#screen"), 15);
   var life = new Life(screen);
-  var initials = [
+  var cartridge = new Cartridge([
     [10, 3],
     [11, 3],
     [12, 3],
@@ -10,8 +10,8 @@ $(function() {
     [22, 8],
     [22, 7],
     [21, 6]
-  ]
+  ]);
 
-  life.init(initials);
+  life.insert(cartridge);
   life.play(25);
 });
