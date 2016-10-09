@@ -96,16 +96,7 @@ class Life {
       for (let y = 0; y < this.screen.rows; y++) {
         this.grid.get(x, y, (cell) => {
           let aliveNeighbours = 0;
-          let neighbourCoordinates = [
-            [x - 1, y],
-            [x + 1, y],
-            [x, y - 1],
-            [x, y + 1],
-            [x - 1, y - 1],
-            [x - 1, y + 1],
-            [x + 1, y - 1],
-            [x + 1, y + 1],
-          ]
+          let neighbourCoordinates = orthogonalNeighboursOf(x, y);
 
           for (let point of neighbourCoordinates) {
             let nx = point[0];
