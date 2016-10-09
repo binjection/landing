@@ -107,27 +107,17 @@ class Life {
     for (let x = 0; x < this.screen.cols; x++) {
       for (let y = 0; y < this.screen.rows; y++) {
         this.grid.get(x, y, (cell) => {
-          let aliveNeighbours = 0;
-          let neighbourCoordinates = orthogonalNeighboursOf(x, y);
-
-          for (let point of neighbourCoordinates) {
-            let nx = point[0];
-            let ny = point[1];
-
-            this.grid.get(nx, ny, (neighbourCell) => {
-              aliveNeighbours += neighbourCell.value;
-            });
-          }
-
-          if (cell.isAlive()) {
-            if (aliveNeighbours < 2 || aliveNeighbours > 3) {
-              diff.push(cell.kill());
+          this.grid.countAliveNeighboursOf(cell, (aliveNeighbours) => {
+            if (cell.isAlive()) {
+              if (aliveNeighbours < 2 || aliveNeighbours > 3) {
+                diff.push(cell.kill());
+              }
+            } else {
+              if (aliveNeighbours == 3) {
+                diff.push(cell.populate());
+              }
             }
-          } else {
-            if (aliveNeighbours == 3) {
-              diff.push(cell.populate());
-            }
-          }
+          });
         });
       }
     }
@@ -153,6 +143,22 @@ class Grid {
     if (x < this.cols && y < this.rows && x > 0 && y > 0) {
       callback(this.data[y * this.cols + x]);
     }
+  }
+
+  countAliveNeighboursOf(cell, callback) {
+    let neighbourCoordinates = orthogonalNeighboursOf(cell.x, cell.y);
+    let result = 0;
+
+    for (let point of neighbourCoordinates) {
+      let x = point[0];
+      let y = point[1];
+
+      this.get(x, y, (neighbourCell) => {
+        result += neighbourCell.value;
+      });
+    }
+
+    callback(result);
   }
 }
 
