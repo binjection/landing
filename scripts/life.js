@@ -1,4 +1,4 @@
-class Screen {
+class CanvasScreen {
   constructor($document, $elem, unit) {
     this.elem = $elem[0];
     this.unit = unit;
@@ -15,18 +15,18 @@ class Screen {
   refresh(diff) {
     for (let change of diff) {
       change({
-        populated: (cell) => {
-          this.set(cell);
+        populated: (pixel) => {
+          this.set(pixel);
         },
-        dead: (cell) => {
-          this.del(cell);
+        dead: (pixel) => {
+          this.del(pixel);
         }
       });
     }
   }
 
-  del(cell) {
-    this.getContext(cell.x, cell.y, (ctx, x, y, size) => {
+  del(pixel) {
+    this.getContext(pixel.x, pixel.y, (ctx, x, y, size) => {
       ctx.clearRect(x, y, size, size);
       ctx.fillStyle = "#2D325A";
       ctx.globalAlpha = rand(0.15, 0.45);
@@ -34,8 +34,8 @@ class Screen {
     });
   }
 
-  set(cell) {
-    this.getContext(cell.x, cell.y, (ctx, x, y, size) => {
+  set(pixel) {
+    this.getContext(pixel.x, pixel.y, (ctx, x, y, size) => {
       ctx.clearRect(x, y, size, size);
       ctx.globalAlpha = 1;
       ctx.fillStyle = "#56BDA2";

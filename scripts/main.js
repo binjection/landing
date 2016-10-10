@@ -1,5 +1,5 @@
 $(function() {
-  var screen = new Screen($(document), $("#screen"), 15);
+  var screen = new CanvasScreen($(document), $("#screen"), 15);
   var life = new Life(screen);
   var cartridge = new Cartridge([
     [10, 3],
