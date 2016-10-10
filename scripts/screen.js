@@ -54,7 +54,7 @@ class CanvasScreen {
 class HoveringCanvasScreen extends CanvasScreen {
   constructor($document, $elem, unit) {
     super($document, $elem, unit);
-    this.resizeCanvas($document.width() + 200, $document.height() * 2);
+    this.resizeCanvas($document.width() + 200, $document.height() * 3);
     this.$elem = $elem;
   }
 

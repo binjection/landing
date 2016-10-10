@@ -13,6 +13,21 @@ class Cartridge {
   }
 }
 
+class RandomCartridge extends Cartridge {
+  constructor(count, maxRow, maxCol) {
+    var coordinates = []
+
+    for (let i = 0; i < count; i++) {
+      let x = randInt(0, maxCol-1);
+      let y = randInt(0, maxRow-1);
+
+      coordinates = coordinates.concat(randLife(x, y));
+    }
+
+    super(coordinates);
+  }
+}
+
 class Life {
   constructor(screen) {
     this.screen = screen;
