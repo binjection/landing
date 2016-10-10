@@ -48,7 +48,7 @@ class Grid {
 
     for (let x = 0; x < this.cols; x++) {
       for (let y = 0; y < this.rows; y++) {
-        this.cells[y * this.cols + x] = new Cell(x, y, {
+        this.cells[this.id(x, y)] = new Cell(x, y, {
           populated: () => {
             screen.set(x, y);
           },
@@ -60,9 +60,13 @@ class Grid {
     }
   }
 
+  id(x, y) {
+    return y * this.cols + x
+  }
+
   get(x, y, callback) {
     if (x < this.cols && y < this.rows && x > 0 && y > 0) {
-      callback(this.cells[y * this.cols + x]);
+      callback(this.cells[this.id(x, y)]);
     }
   }
 
