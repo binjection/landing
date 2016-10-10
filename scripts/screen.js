@@ -5,6 +5,10 @@ class CanvasScreen {
     this.resizeCanvas($document.width(), $document.height());
   }
 
+  themify(sprite) {
+    this.sprite = sprite;
+  }
+
   resizeCanvas(w, h) {
     this.elem.width  = w;
     this.elem.height = h;
@@ -22,19 +26,18 @@ class CanvasScreen {
 
   del(row, col) {
     this.getContext(row, col, (ctx, x, y, size) => {
+      ctx.globalAlpha = 1;
       ctx.clearRect(x, y, size, size);
-      ctx.fillStyle = "#2D325A";
-      ctx.globalAlpha = rand(0.15, 0.45);
-      ctx.fillRect(x, y, size, size);
+      ctx.globalAlpha = rand(0.25, 0.65);
+      ctx.drawImage(this.sprite, 0, 150, 150, 150, x, y, size, size);
     });
   }
 
   set(row, col) {
     this.getContext(row, col, (ctx, x, y, size) => {
-      ctx.clearRect(x, y, size, size);
       ctx.globalAlpha = 1;
-      ctx.fillStyle = "#56BDA2";
-      ctx.fillRect(x, y, size, size);
+      ctx.clearRect(x, y, size, size);
+      ctx.drawImage(this.sprite, 0, 0, 150, 150, x, y, size, size);
     });
   }
 
@@ -60,7 +63,7 @@ class HoveringCanvasScreen extends CanvasScreen {
 
     super.clear();
 
-    this.$elem.animate({ opacity: 1 }, { queue: false, duration: 1000 });
-    this.$elem.animate({ top: 0 }, 5000);
+    this.$elem.animate({ opacity: 1 }, { queue: false, duration: 1000 });
+    this.$elem.animate({ top: 0 }, 10000);
   }
 }
