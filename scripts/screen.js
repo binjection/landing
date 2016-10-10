@@ -43,3 +43,24 @@ class CanvasScreen {
     callback(ctx, row * this.unit, col * this.unit, this.unit);
   }
 }
+
+class HoveringCanvasScreen extends CanvasScreen {
+  constructor($document, $elem, unit) {
+    super($document, $elem, unit);
+    this.resizeCanvas($document.width() + 200, $document.height() * 2);
+    this.$elem = $elem;
+  }
+
+  clear() {
+    this.$elem.animate({
+      left: - 100,
+      top: - Math.ceil(this.elem.height / 2),
+      opacity: 0,
+    }, 0);
+
+    super.clear();
+
+    this.$elem.animate({ opacity: 1 }, { queue: false, duration: 1000 });
+    this.$elem.animate({ top: 0 }, 5000);
+  }
+}
