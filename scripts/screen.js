@@ -1,12 +1,16 @@
 class CanvasScreen {
-  constructor($document, $elem, unit) {
+  constructor($document, $elem) {
     this.elem = $elem[0];
-    this.unit = unit;
+    this.unit = 15;
     this.resizeCanvas($document.width(), $document.height());
   }
 
   themify(sprite) {
     this.sprite = sprite;
+  }
+
+  adjustPixelSize() {
+    this.unit = unit;
   }
 
   resizeCanvas(w, h) {

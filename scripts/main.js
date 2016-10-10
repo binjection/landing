@@ -1,6 +1,6 @@
 $(function() {
   loadSprite("/sprites/cell.svg", (sprite) => {
-    var screen = new HoveringCanvasScreen($(document), $("#screen"), 15);
+    var screen = new HoveringCanvasScreen($(document), $("#screen"));
     screen.themify(sprite);
 
     var life = new Life(screen);
