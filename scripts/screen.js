@@ -1,7 +1,7 @@
 class CanvasScreen {
   constructor($document, $elem) {
     this.elem = $elem[0];
-    this.unit = 15;
+    this.unit = 18;
     this.resizeCanvas($document.width(), $document.height());
   }
 
@@ -59,15 +59,7 @@ class HoveringCanvasScreen extends CanvasScreen {
   }
 
   clear() {
-    this.$elem.animate({
-      left: - 100,
-      top: - Math.ceil(this.elem.height / 2),
-      opacity: 0,
-    }, 0);
-
     super.clear();
-
-    this.$elem.animate({ opacity: 1 }, { queue: false, duration: 1000 });
-    this.$elem.animate({ top: 0 }, 10000);
+    this.$elem.addClass("ready");
   }
 }

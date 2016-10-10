@@ -22,7 +22,7 @@ $(function() {
 
     setTimeout(() => {
       life.insert(cartridge);
-      life.play(100);
+      life.play(250);
     }, 500);
   });
 });
